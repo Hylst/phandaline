@@ -34,7 +34,7 @@ export default function App() {
   useEffect(() => {
     const initAudio = async () => {
       audio.resume();
-      await audio.loadMusic('https://hylst.fr/hml/balade_de_pipin.mp3');
+      await audio.loadMusic('./balade.mp3');
       audio.startMusic();
       window.removeEventListener('click', initAudio);
       window.removeEventListener('keydown', initAudio);
