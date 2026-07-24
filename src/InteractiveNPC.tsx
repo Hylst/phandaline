@@ -46,7 +46,7 @@ export default function InteractiveNPC({ def }: { def: NpcDef }) {
       st.endDialogue();
       audio.playDialogueClose();
     }
-  }, [def.id, voice.pitch, voice.rate]);
+  }, [def.id]);
 
   // Touche E : parler / continuer
   useEffect(() => {
