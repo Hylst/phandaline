@@ -110,7 +110,7 @@ export default function Onboarding({ onComplete }: { onComplete: () => void }) {
         onClick={onComplete}
       >
         <div className="text-center animate-pulse">
-          <div className="text-8xl mb-4">🐉</div>
+          <img src={scene1} alt="Dragon vert" className="mx-auto w-64 h-48 object-cover rounded-xl mb-4" style={{ boxShadow: "0 0 40px rgba(201,162,39,0.3)" }} />
           <h1
             className="text-4xl font-bold tracking-wider mb-2"
             style={{ color: '#c9a227', fontFamily: 'serif', textShadow: '0 0 40px rgba(201,162,39,0.5)' }}
@@ -142,7 +142,7 @@ export default function Onboarding({ onComplete }: { onComplete: () => void }) {
         onClick={() => setScene(0)}
       >
         <div className="text-center">
-          <div className="text-9xl mb-6" style={{ filter: 'drop-shadow(0 0 30px rgba(201,162,39,0.4))' }}>🐉</div>
+          <img src={scene1} alt="Dragon vert" className="mx-auto w-80 h-60 object-cover rounded-xl mb-6" style={{ boxShadow: "0 0 40px rgba(201,162,39,0.3)" }} />
           <h1
             className="text-4xl font-bold tracking-widest mb-4"
             style={{ color: '#c9a227', fontFamily: 'serif', textShadow: '0 0 60px rgba(201,162,39,0.6)' }}

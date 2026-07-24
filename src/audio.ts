@@ -3,8 +3,7 @@ export class AudioManager {
   private musicGain: GainNode | null = null;
   private sfxGain: GainNode | null = null;
   private ambientGain: GainNode | null = null;
-  private musicSource: AudioBufferSourceNode | null = null;
-  private musicBuffer: AudioBuffer | null = null;
+  private musicElement: HTMLAudioElement | null = null;
   private musicPlaying = false;
   private hammerInterval: number | null = null;
   private birdInterval: number | null = null;
@@ -35,6 +34,7 @@ export class AudioManager {
 
   setMusicVolume(v: number) {
     if (this.musicGain) this.musicGain.gain.value = v;
+    if (this.musicElement) this.musicElement.volume = v / 0.3;
   }
 
   setSfxVolume(v: number) {
@@ -52,34 +52,25 @@ export class AudioManager {
     if (this.cricketInterval) { clearInterval(this.cricketInterval); this.cricketInterval = null; }
   }
 
-  async loadMusic(url: string) {
-    if (!this.ctx) return;
-    try {
-      const resp = await fetch(url);
-      const arrayBuffer = await resp.arrayBuffer();
-      this.musicBuffer = await this.ctx.decodeAudioData(arrayBuffer);
-    } catch (e) {
-      console.warn('Erreur chargement musique MP3:', e);
-    }
+  loadMusic(url: string) {
+    if (typeof window === 'undefined') return;
+    this.musicElement = new Audio(url);
+    this.musicElement.loop = true;
+    this.musicElement.volume = this.musicGain ? this.musicGain.gain.value / 0.3 : 0.25;
   }
 
   startMusic() {
-    if (!this.ctx || !this.musicBuffer || !this.musicGain) return;
-    this.stopMusic();
-    const source = this.ctx.createBufferSource();
-    source.buffer = this.musicBuffer;
-    source.loop = true;
-    source.connect(this.musicGain);
-    source.start();
-    this.musicSource = source;
-    this.musicPlaying = true;
+    if (this.musicElement) {
+      this.stopMusic();
+      this.musicElement.play().catch(() => {});
+      this.musicPlaying = true;
+    }
     this.startBirds();
   }
 
   stopMusic() {
-    if (this.musicSource) {
-      try { this.musicSource.stop(); } catch (e) {}
-      this.musicSource = null;
+    if (this.musicElement) {
+      try { this.musicElement.pause(); } catch (e) {}
     }
     this.musicPlaying = false;
   }
