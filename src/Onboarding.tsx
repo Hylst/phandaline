@@ -1,5 +1,4 @@
 import { useState, useEffect, useCallback } from 'react';
-import { audio } from './audio';
 import scene1 from './images/scene1_dragon.webp';
 import scene2 from './images/scene2_combat.webp';
 import scene3 from './images/scene3_village.webp';
@@ -45,7 +44,6 @@ export default function Onboarding({ onComplete }: { onComplete: () => void }) {
   const currentScene = SCENES[scene];
 
   const skipIntro = useCallback(() => {
-    audio.stopSpeaking();
     audio.playWhoosh();
     onComplete();
   }, [onComplete]);
@@ -101,16 +99,6 @@ export default function Onboarding({ onComplete }: { onComplete: () => void }) {
     window.addEventListener('keydown', onKey);
     return () => window.removeEventListener('keydown', onKey);
   }, [skipIntro]);
-
-  // Lecture vocale de la scène
-  useEffect(() => {
-    if (scene >= 0 && currentScene && !fade) {
-      setTimeout(() => {
-        audio.speak(currentScene.text, 0.9, 0.8);
-      }, 500);
-    }
-    return () => { audio.stopSpeaking(); };
-  }, [scene, fade]);
 
   // Écran titre
   if (!introDone) {

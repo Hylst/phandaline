@@ -3,20 +3,19 @@ export class AudioManager {
   private musicGain: GainNode | null = null;
   private sfxGain: GainNode | null = null;
   private ambientGain: GainNode | null = null;
-  private musicOscillators: OscillatorNode[] = [];
-  private isNight = false;
-  private musicInterval: number | null = null;
+  private musicSource: AudioBufferSourceNode | null = null;
+  private musicBuffer: AudioBuffer | null = null;
+  private musicPlaying = false;
   private hammerInterval: number | null = null;
   private birdInterval: number | null = null;
   private cricketInterval: number | null = null;
-  private speechQueue: SpeechSynthesisUtterance[] = [];
 
   constructor() {
     try {
       this.ctx = new (window.AudioContext || (window as any).webkitAudioContext)();
       this.musicGain = this.ctx.createGain();
       this.musicGain.connect(this.ctx.destination);
-      this.musicGain.gain.value = 0.12;
+      this.musicGain.gain.value = 0.25;
 
       this.sfxGain = this.ctx.createGain();
       this.sfxGain.connect(this.ctx.destination);
@@ -53,77 +52,51 @@ export class AudioManager {
     if (this.cricketInterval) { clearInterval(this.cricketInterval); this.cricketInterval = null; }
   }
 
-  // ==================== MUSIQUE ====================
-  startMusic(isNight: boolean) {
-    this.isNight = isNight;
+  async loadMusic(url: string) {
+    if (!this.ctx) return;
+    try {
+      const resp = await fetch(url);
+      const arrayBuffer = await resp.arrayBuffer();
+      this.musicBuffer = await this.ctx.decodeAudioData(arrayBuffer);
+    } catch (e) {
+      console.warn('Erreur chargement musique MP3:', e);
+    }
+  }
+
+  startMusic() {
+    if (!this.ctx || !this.musicBuffer || !this.musicGain) return;
     this.stopMusic();
-    this.stopAmbientSFX();
-    if (!this.ctx || !this.musicGain) return;
-
-    const dayScale = [261.63, 293.66, 329.63, 392.00, 440.00, 523.25];
-    const nightScale = [196.00, 220.00, 261.63, 293.66, 349.23, 392.00];
-
-    const playNote = () => {
-      if (!this.ctx || !this.musicGain) return;
-      const scale = this.isNight ? nightScale : dayScale;
-      const freq = scale[Math.floor(Math.random() * scale.length)];
-      const duration = this.isNight ? 2.5 : 1.5;
-      const osc = this.ctx.createOscillator();
-      const gain = this.ctx.createGain();
-      const filter = this.ctx.createBiquadFilter();
-      osc.type = this.isNight ? 'sine' : 'triangle';
-      osc.frequency.value = freq;
-      filter.type = 'lowpass';
-      filter.frequency.value = this.isNight ? 800 : 1500;
-      gain.gain.setValueAtTime(0, this.ctx.currentTime);
-      gain.gain.linearRampToValueAtTime(0.07, this.ctx.currentTime + 0.12);
-      gain.gain.linearRampToValueAtTime(0, this.ctx.currentTime + duration);
-      osc.connect(filter);
-      filter.connect(gain);
-      gain.connect(this.musicGain!);
-      osc.start();
-      osc.stop(this.ctx.currentTime + duration);
-      this.musicOscillators.push(osc);
-    };
-
-    // Mélodie principale
-    playNote();
-    this.musicInterval = window.setInterval(playNote, this.isNight ? 3000 : 2000);
-
-    // Seconde voix harmonique
-    setTimeout(() => {
-      playNote();
-      this.musicInterval = window.setInterval(playNote, this.isNight ? 4500 : 3000);
-    }, 1000);
-
-    // Drone
-    this.createDrone(this.isNight ? 98 : 130.81, this.isNight ? 0.04 : 0.025);
-    this.createDrone(this.isNight ? 146.83 : 196.00, this.isNight ? 0.02 : 0.015);
-
-    // SFX d'ambiance selon le moment
-    if (!isNight) this.startBirds();
-    else this.startCrickets();
+    const source = this.ctx.createBufferSource();
+    source.buffer = this.musicBuffer;
+    source.loop = true;
+    source.connect(this.musicGain);
+    source.start();
+    this.musicSource = source;
+    this.musicPlaying = true;
+    this.startBirds();
   }
 
   stopMusic() {
-    this.musicOscillators.forEach(o => { try { o.stop(); } catch (e) {} });
-    this.musicOscillators = [];
-    if (this.musicInterval) { clearInterval(this.musicInterval); this.musicInterval = null; }
+    if (this.musicSource) {
+      try { this.musicSource.stop(); } catch (e) {}
+      this.musicSource = null;
+    }
+    this.musicPlaying = false;
   }
 
-  private createDrone(freq: number, vol: number) {
-    if (!this.ctx || !this.ambientGain) return;
-    const osc = this.ctx.createOscillator();
-    const gain = this.ctx.createGain();
-    osc.type = 'sine';
-    osc.frequency.value = freq;
-    gain.gain.value = vol;
-    osc.connect(gain);
-    gain.connect(this.ambientGain);
-    osc.start();
+  toggleMusic(): boolean {
+    if (this.musicPlaying) {
+      this.stopMusic();
+    } else {
+      this.startMusic();
+    }
+    return this.musicPlaying;
   }
 
-  // Oiseaux (jour)
+  isMusicPlaying(): boolean {
+    return this.musicPlaying;
+  }
+
   private startBirds() {
     if (!this.ctx) return;
     const chirp = () => {
@@ -148,27 +121,6 @@ export class AudioManager {
     };
     chirp();
     this.birdInterval = window.setInterval(chirp, 3000 + Math.random() * 5000);
-  }
-
-  // Grillons (nuit)
-  private startCrickets() {
-    if (!this.ctx) return;
-    const chirp = () => {
-      if (!this.ctx || !this.ambientGain) return;
-      const t = this.ctx.currentTime;
-      const osc = this.ctx.createOscillator();
-      const gain = this.ctx.createGain();
-      osc.type = 'square';
-      osc.frequency.value = 4500 + Math.random() * 500;
-      gain.gain.setValueAtTime(0, t);
-      gain.gain.linearRampToValueAtTime(0.015, t + 0.01);
-      gain.gain.linearRampToValueAtTime(0, t + 0.08);
-      osc.connect(gain);
-      gain.connect(this.ambientGain!);
-      osc.start(t);
-      osc.stop(t + 0.08);
-    };
-    this.cricketInterval = window.setInterval(chirp, 200 + Math.random() * 400);
   }
 
   // ==================== SFX ====================
@@ -600,26 +552,6 @@ export class AudioManager {
     gain.connect(this.ambientGain!);
     noise.start();
     noise.stop(t + 0.9);
-  }
-}
-
-export type VoiceProfile = { pitch: number; rate: number; tone: 'deep' | 'normal' | 'high' | 'whisper' };
-
-export function getVoiceProfile(npcId: string): VoiceProfile {
-  switch (npcId) {
-    case 'oscar': return { pitch: 0.95, rate: 0.88, tone: 'normal' };
-    case 'anton': return { pitch: 0.75, rate: 0.82, tone: 'deep' };
-    case 'halfeline': return { pitch: 1.35, rate: 1.05, tone: 'high' };
-    case 'eliass': return { pitch: 0.85, rate: 0.78, tone: 'deep' };
-    case 'sildar': return { pitch: 0.9, rate: 0.85, tone: 'normal' };
-    case 'buddy': return { pitch: 0.7, rate: 0.9, tone: 'deep' };
-    case 'azureas': return { pitch: 1.0, rate: 0.75, tone: 'normal' };
-    case 'kallista': return { pitch: 1.15, rate: 0.82, tone: 'normal' };
-    case 'azazel': return { pitch: 1.05, rate: 0.95, tone: 'normal' };
-    case 'sindaros': return { pitch: 0.88, rate: 0.7, tone: 'normal' };
-    case 'elian': return { pitch: 0.92, rate: 0.92, tone: 'normal' };
-    case 'kenrick': return { pitch: 1.25, rate: 1.15, tone: 'whisper' };
-    default: return { pitch: 1.0, rate: 0.9, tone: 'normal' };
   }
 }
 

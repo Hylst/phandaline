@@ -17,6 +17,7 @@ import Onboarding from './Onboarding';
 export default function App() {
   const [onboardingDone, setOnboardingDone] = useState(false);
   const [isNight, setIsNight] = useState(false);
+  const [musicOn, setMusicOn] = useState(true);
   const [mode, setMode] = useState<CameraMode>('orbit');
   const gold = useGame((s) => s.gold);
   const reputation = useGame((s) => s.reputation);
@@ -29,11 +30,12 @@ export default function App() {
     useGame.getState().setCameraMode(mode);
   }, [mode]);
 
-  // Démarre la musique au premier clic/interaction
+  // Charge la musique MP3 au premier clic
   useEffect(() => {
-    const initAudio = () => {
+    const initAudio = async () => {
       audio.resume();
-      audio.startMusic(isNight);
+      await audio.loadMusic('https://hylst.fr/hml/balade_de_pipin.mp3');
+      audio.startMusic();
       window.removeEventListener('click', initAudio);
       window.removeEventListener('keydown', initAudio);
     };
@@ -44,11 +46,6 @@ export default function App() {
       window.removeEventListener('keydown', initAudio);
     };
   }, []);
-
-  // Change la musique jour/nuit
-  useEffect(() => {
-    audio.startMusic(isNight);
-  }, [isNight]);
 
   // Joue un son quand une quête est terminée
   const prevQuests = useMemo(() => ({ ...quests }), []);
@@ -65,12 +62,7 @@ export default function App() {
     });
   }, [quests]);
 
-  // Arrête la synthèse vocale quand le dialogue se ferme
-  useEffect(() => {
-    if (!dialogue) {
-      audio.stopSpeaking();
-    }
-  }, [dialogue]);
+
 
   // Paramètres d'éclairage corrigés et plus marqués
   const lighting = useMemo(() => {
@@ -103,7 +95,7 @@ export default function App() {
     return <Onboarding onComplete={() => {
       setOnboardingDone(true);
       audio.resume();
-      audio.startMusic(false);
+      audio.startMusic();
     }} />;
   }
 
@@ -307,6 +299,16 @@ export default function App() {
             ✦ {reputation} Renom
           </span>
           {/* Contrôle volume */}
+          <button
+            onClick={() => {
+              const playing = audio.toggleMusic();
+              setMusicOn(playing);
+            }}
+            className="rounded-md border border-amber-700/60 bg-black/40 px-2 py-1 text-sm transition hover:bg-amber-900/30"
+            title={musicOn ? 'Couper musique' : 'Activer musique'}
+          >
+            {musicOn ? '🎵' : '🚫'}
+          </button>
           <div className="flex items-center gap-1 border-r border-amber-700/50 pr-2">
             <span className="text-lg">🔊</span>
             <input
@@ -316,7 +318,7 @@ export default function App() {
               defaultValue="60"
               onChange={(e) => {
                 const v = Number(e.target.value) / 100;
-                audio.setMusicVolume(v * 0.15);
+                audio.setMusicVolume(v * 0.25);
                 audio.setSfxVolume(v * 0.4);
               }}
               className="w-16 accent-amber-400"

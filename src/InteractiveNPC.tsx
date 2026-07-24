@@ -5,7 +5,7 @@ import * as THREE from 'three';
 import Character from './Characters';
 import { NpcDef, npcScript } from './npcData';
 import { useGame, playerWorld } from './store';
-import { audio, getVoiceProfile } from './audio';
+import { audio } from './audio';
 
 const TALK_RANGE = 3.2;
 const LEAVE_RANGE = 5.5;
@@ -33,7 +33,6 @@ export default function InteractiveNPC({ def }: { def: NpcDef }) {
   const lineIdx = isTalking ? Math.min(dialogue!.line, script.lines.length - 1) : 0;
   const isLastLine = lineIdx >= script.lines.length - 1;
 
-  const voice = getVoiceProfile(def.id);
 
   const advance = useCallback(() => {
     const st = useGame.getState();
@@ -42,12 +41,10 @@ export default function InteractiveNPC({ def }: { def: NpcDef }) {
     audio.playDialogueNext();
     if (st.dialogue.line + 1 < sc.lines.length) {
       st.setLine(st.dialogue.line + 1);
-      audio.speak(sc.lines[st.dialogue.line + 1], voice.pitch, voice.rate);
     } else {
       sc.onEnd?.();
       st.endDialogue();
       audio.playDialogueClose();
-      audio.stopSpeaking();
     }
   }, [def.id, voice.pitch, voice.rate]);
 
@@ -72,7 +69,6 @@ export default function InteractiveNPC({ def }: { def: NpcDef }) {
       audio.playDialogueOpen();
       const sc = npcScript(def.id, useGame.getState().quests);
       setTimeout(() => {
-        audio.speak(sc.lines[0], voice.pitch, voice.rate);
       }, 200);
     }
   }, [dialogue?.npcId, dialogue?.line, def.id]);
