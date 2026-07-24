@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
+import { audio } from './audio';
 import scene1 from './images/scene1_dragon.webp';
 import scene2 from './images/scene2_combat.webp';
 import scene3 from './images/scene3_village.webp';
@@ -41,7 +42,7 @@ export default function Onboarding({ onComplete }: { onComplete: () => void }) {
   const [fade, setFade] = useState(true);
   const [introDone, setIntroDone] = useState(false);
 
-  const currentScene = SCENES[scene];
+  const currentScene = scene >= 0 && scene < SCENES.length ? SCENES[scene] : null;
 
   const skipIntro = useCallback(() => {
     audio.playWhoosh();
@@ -183,6 +184,9 @@ export default function Onboarding({ onComplete }: { onComplete: () => void }) {
   }
 
   const isLast = scene === SCENES.length - 1;
+
+  // Défensif : si currentScene est null mais scene >= 0, on évite le crash
+  if (!currentScene && scene >= 0) return null;
 
   return (
     <div
