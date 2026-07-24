@@ -1,32 +1,36 @@
 import { useState, useEffect, useCallback } from 'react';
 import { audio } from './audio';
+import scene1 from './images/scene1_dragon.webp';
+import scene2 from './images/scene2_combat.webp';
+import scene3 from './images/scene3_village.webp';
+import scene4 from './images/scene4_compagnons.webp';
 
 const SCENES = [
   {
     title: 'L\'Appel de Phandaline',
-    text: `Cinq cents ans avant les événements de la Mine oubliée de Phancreux, au cœur de la Côte des Épées, se dresse la fière bourgade de Phandaline.\n\nFondée par une famille de nains en quête de filons, elle doit sa richesse à la Caverne du Ressac, dont la source souterraine murmure en écho au Plan Élémentaire de l\'Eau.\n\nLes gnomes ingénieurs et les enchanteurs humains du conglomérat mené par le mage Mormesk ont bâti leur fortune sur ce lien mystique. Et le village, d\'abord simple hameau dépendant de Padhiver, a grandi jusqu\'à revendiquer son indépendance.\n\nPuis vint le dragon.`,
-    emoji: '🐉',
+    text: `Cinq cents ans avant les événements de la Mine oubliée de Phancreux, au c\u0153ur de la Côte des Épées, se dresse la fière bourgade de Phandaline.\n\nFondée par une famille de nains en quête de filons, elle doit sa richesse à la Caverne du Ressac, dont la source souterraine murmure en écho au Plan Élémentaire de l\'Eau.\n\nLes gnomes ingénieurs et les enchanteurs humains du conglomérat mené par le mage Mormesk ont bâti leur fortune sur ce lien mystique. Et le village, d\'abord simple hameau dépendant de Padhiver, a grandi jusqu\'à revendiquer son indépendance.\n\nPuis vint le dragon.`,
+    image: scene1,
     color: '#0a0a1a',
     accentColor: '#3a6a8a',
   },
   {
     title: 'Le Dragon Vert Azdraka',
     text: `Il y a vingt ans, le Grand Dragon Vert Azdraka s\'installa dans le Bois de Padhiver et imposa sa tyrannie sur toute la région.\n\nUne compagnie d\'aventuriers menée par Dame Tanamere Alagondar se dressa contre lui. On dit que leur combat dura cinq jours et cinq nuits — des montagnes aux forêts, jusqu\'à la Grande Route.\n\nTanamere tomba en portant le coup fatal. Seul Aldrith Tresendar, le rôdeur surnommé « le Faucon Noir », revint annoncer la nouvelle. Reconnaissant, Phandaline le fit Prince.\n\nAprès avoir fait ériger le Tertre du Dragon en mémoire de Tanamere, Aldrith fit bâtir son manoir sur une colline et gouverna avec bienveillance. Phandaline devint le « Joyau du Nord ».`,
-    emoji: '⚔️',
+    image: scene2,
     color: '#1a0a0a',
     accentColor: '#c04030',
   },
   {
     title: 'La Bourgade d\'Aujourd\'hui',
-    text: `Aujourd\'hui, presque trois mille âmes vivent à Phandaline, protégées par les Serres du Prince Tresendar.\n\n🍺 L\'Auberge du Bon-Vivant, tenue par Oscar Bon-Vivant, où les bardes chantent les légendes et les aventuriers trouvent leurs quêtes.\n\n⚒️ La Forge de l\'Homme-de-Fer, où Anton Hizark arme l\'élite guerrière de Phandaline.\n\n🛒 Le magasin des Bonne-Fortune, la famille halfeline qui commerce jusqu\'à Connyberry et Leilon.\n\n🐴 La ferme du vieux Eliass, qui garde les chevaux du Prince et se souvient du dragon.\n\n🔮 Et le mage Sildar Hallwinter, conseiller du Prince, qui veille sur les arcanes.\n\nApproche-toi et appuie sur [E] pour parler.`,
-    emoji: '🏘️',
+    text: `Aujourd\'hui, presque trois mille âmes vivent à Phandaline, protégées par les Serres du Prince Tresendar.\n\n\ud83c\udf7a L\'Auberge du Bon-Vivant, tenue par Oscar Bon-Vivant, où les bardes chantent les légendes et les aventuriers trouvent leurs quêtes.\n\n\u2692\ufe0f La Forge de l\'Homme-de-Fer, où Anton Hizark arme l\'élite guerrière de Phandaline.\n\n\ud83d\uded2 Le magasin des Bonne-Fortune, la famille halfeline qui commerce jusqu\'à Connyberry et Leilon.\n\n\ud83d\udc34 La ferme du vieux Eliass, qui garde les chevaux du Prince et se souvient du dragon.\n\n\ud83d\udd2e Et le mage Sildar Hallwinter, conseiller du Prince, qui veille sur les arcanes.\n\nApproche-toi et appuie sur [E] pour parler.`,
+    image: scene3,
     color: '#2a1a0a',
     accentColor: '#d0a040',
   },
   {
     title: 'Les Phlandys — Tes Compagnons',
-    text: `Tu n\'es pas seul. Les Phlandys, groupe de héros de Phandaline, t\'accompagnent dans tes aventures depuis leur nouvelle demeure : le manoir des Tresendar, un peu à l\'écart sur la colline nord.\n\n🪨 Buddy, nain moine du Feu\n🔵 Azureas, mage bleu de la Tour de Padhiver\n🏹 Kallista, rôdeuse tieffeline à la peau rouge\n🎵 Azazel, son frère, barde à la peau bleue\n🌿 Sindaros, elfe prêtre-mage mystérieux\n✨ Elian, paladin un peu... excentrique\n🍲 Kenrick, gobelin moine sous cape, fin cuisinier\n\nRamasse les objets brillants ✨ pour accomplir tes quêtes. Que ta légende s\'écrive à Phandaline !`,
-    emoji: '🗡️',
+    text: `Tu n\'es pas seul. Les Phlandys, groupe de héros de Phandaline, t\'accompagnent dans tes aventures depuis leur nouvelle demeure : le manoir des Tresendar, un peu à l\'écart sur la colline nord.\n\n\ud83e\udea8 Buddy, nain moine du Feu\n\ud83d\udd35 Azureas, mage bleu de la Tour de Padhiver\n\ud83c\udff4\u200d\u2620\ufe0f Kallista, rôdeuse tieffeline à la peau rouge\n\ud83c\udfb5 Azazel, son frère, barde à la peau bleue\n\ud83c\udf3f Sindaros, elfe prêtre-mage mystérieux\n\u2728 Elian, paladin un peu... excentrique\n\ud83c\udf72 Kenrick, gobelin moine sous cape, fin cuisinier\n\nRamasse les objets brillants \u2728 pour accomplir tes quêtes. Que ta légende s\'écrive à Phandaline !`,
+    image: scene4,
     color: '#0a1a2a',
     accentColor: '#40a0c0',
   },
@@ -220,11 +224,19 @@ export default function Onboarding({ onComplete }: { onComplete: () => void }) {
       ))}
 
       {/* Illustration */}
-      <div className="text-8xl mb-6" style={{
+      <div className="mb-6 w-full max-w-lg" style={{
         filter: `drop-shadow(0 0 40px ${currentScene.accentColor}60)`,
         transition: 'all 0.8s ease',
       }}>
-        {currentScene.emoji}
+        <img
+          src={currentScene.image}
+          alt={currentScene.title}
+          className="w-full h-64 object-cover rounded-xl"
+          style={{
+            boxShadow: `0 0 30px ${currentScene.accentColor}40`,
+            border: `1px solid ${currentScene.accentColor}30`,
+          }}
+        />
       </div>
 
       {/* Titre */}
