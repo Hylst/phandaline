@@ -83,7 +83,8 @@ export default function Onboarding({ onComplete }: { onComplete: () => void }) {
     if (typing.length < currentScene.text.length) {
       setTyping(currentScene.text);
       setFade(false);
-    } else if (scene < SCENES.length - 1) {
+    }
+    if (scene < SCENES.length - 1) {
       setScene((s) => s + 1);
     } else {
       onComplete();

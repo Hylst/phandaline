@@ -19,7 +19,7 @@ export default function App() {
   const [isNight, setIsNight] = useState(false);
   const [musicOn, setMusicOn] = useState(true);
   const [mode, setMode] = useState<CameraMode>('orbit');
-  const [loading, setLoading] = useState(false);
+
   const gold = useGame((s) => s.gold);
   const reputation = useGame((s) => s.reputation);
   const defeated = useGame((s) => s.defeated);
@@ -93,21 +93,7 @@ export default function App() {
 
   if (!onboardingDone) {
     return (
-      <Onboarding onComplete={() => {
-        setOnboardingDone(true);
-        setLoading(true);
-        requestAnimationFrame(() => setLoading(false));
-      }} />
-    );
-  }
-
-  if (loading) {
-    return (
-      <div className="fixed inset-0 z-50 flex items-center justify-center bg-black">
-        <div className="text-center">
-          <p className="text-2xl font-serif text-amber-300 animate-pulse">Chargement du monde...</p>
-        </div>
-      </div>
+      <Onboarding onComplete={() => setOnboardingDone(true)} />
     );
   }
 
