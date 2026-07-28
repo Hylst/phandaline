@@ -79,27 +79,24 @@ export default function Onboarding({ onComplete }: { onComplete: () => void }) {
   const next = useCallback(() => {
     audio.resume();
     if (!currentScene) { setScene(0); return; }
-    // Si le texte n'est pas fini, l'afficher d'un coup
     if (typing.length < currentScene.text.length) {
       setTyping(currentScene.text);
       setFade(false);
-      return;
-    }
-    if (scene < SCENES.length - 1) {
+    } else if (scene < SCENES.length - 1) {
       setScene((s) => s + 1);
     } else {
       onComplete();
     }
   }, [scene, currentScene, typing, onComplete]);
 
-  // Escape : passer toute l'introduction et entrer directement dans le jeu.
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
       if (e.code === 'Escape') skipIntro();
+      if (e.code === 'Space') { e.preventDefault(); next(); }
     };
     window.addEventListener('keydown', onKey);
     return () => window.removeEventListener('keydown', onKey);
-  }, [skipIntro]);
+  }, [skipIntro, next]);
 
   // Écran titre
   if (!introDone) {
@@ -153,8 +150,11 @@ export default function Onboarding({ onComplete }: { onComplete: () => void }) {
           <p className="text-lg italic mb-2" style={{ color: '#a08050', fontFamily: 'serif' }}>
             Campagne D&D 5e — Champion.ne · La Demeure du Mal
           </p>
-          <p className="text-xs mt-2 mb-10" style={{ color: '#665533', fontFamily: 'serif' }}>
+           <p className="text-xs mt-2 mb-6" style={{ color: '#665533', fontFamily: 'serif' }}>
             Par <span style={{ color: '#c9a227' }}>Geoffroy Streit</span> — <span style={{ color: '#806030' }}>Rôliste Fantasque</span> — Quid Facis
+          </p>
+          <p className="text-[10px]" style={{ color: '#443322', fontFamily: 'serif' }}>
+            Musique : <span style={{ color: '#665533' }}>La Balade de Pipin</span> par Hylst (Geoffroy)
           </p>
           <button
             onClick={(e) => {

@@ -65,6 +65,17 @@ export class AudioManager {
     }
   }
 
+  startWhenReady() {
+    if (this.musicBuffer) { this.startMusic(); return; }
+    const check = setInterval(() => {
+      if (this.musicBuffer) {
+        clearInterval(check);
+        this.startMusic();
+      }
+    }, 100);
+    setTimeout(() => clearInterval(check), 10000);
+  }
+
   startMusic() {
     if (!this.ctx || !this.musicBuffer || !this.musicGain) return;
     this.stopMusic();

@@ -31,12 +31,11 @@ export default function App() {
     useGame.getState().setCameraMode(mode);
   }, [mode]);
 
-  // Charge la musique au montage, démarre au premier clic
   useEffect(() => {
     audio.loadMusic('./balade.mp3');
     const startAudio = () => {
       audio.resume();
-      audio.startMusic();
+      audio.startWhenReady();
       window.removeEventListener('click', startAudio);
       window.removeEventListener('keydown', startAudio);
     };
@@ -97,7 +96,7 @@ export default function App() {
       <Onboarding onComplete={() => {
         setOnboardingDone(true);
         setLoading(true);
-        setTimeout(() => setLoading(false), 500);
+        requestAnimationFrame(() => setLoading(false));
       }} />
     );
   }
