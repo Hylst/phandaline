@@ -60,7 +60,6 @@ export class AudioManager {
       const resp = await fetch(url);
       const ab = await resp.arrayBuffer();
       this.musicBuffer = await this.ctx.decodeAudioData(ab);
-      this.startMusic();
     } catch (e) {
       console.warn('Erreur chargement MP3:', e);
     }
@@ -126,7 +125,7 @@ export class AudioManager {
     this.birdInterval = window.setInterval(chirp, 3000 + Math.random() * 5000);
   }
 
-  // ==================== SFX ====================
+
 
   playFootstep(surface: 'grass' | 'stone' = 'grass') {
     if (!this.ctx || !this.sfxGain) return;
@@ -446,7 +445,6 @@ export class AudioManager {
     return chunks;
   }
 
-  // Profils de voix par PNJ, avec découpage en phrases pour une voix française plus naturelle.
   speak(text: string, pitch = 1, rate = 0.9) {
     if (!('speechSynthesis' in window)) return;
     window.speechSynthesis.cancel();
@@ -474,7 +472,7 @@ export class AudioManager {
     if ('speechSynthesis' in window) window.speechSynthesis.cancel();
   }
 
-  // ========== BRUITAGES DE COMBAT / MAGIE =========
+
   playSpellCast() {
     if (!this.ctx || !this.sfxGain) return;
     const t = this.ctx.currentTime;

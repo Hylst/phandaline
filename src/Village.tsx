@@ -14,7 +14,6 @@ interface Props {
   isNight: boolean;
 }
 
-// ============================= TREE =============================
 function Tree({ position, scale = 1, isNight }: { position: [number, number, number]; scale?: number; isNight: boolean }) {
   const leaves1 = useRef<THREE.Mesh>(null);
   const leaves2 = useRef<THREE.Mesh>(null);
@@ -56,9 +55,6 @@ function Tree({ position, scale = 1, isNight }: { position: [number, number, num
   );
 }
 
-// ============================= HOUSE =============================
-// Grande maison à 2 étages : rez-de-chaussée en PIERRE, étage à COLOMBAGES
-// (plâtre + poutres de bois apparentes), toit à pignon, étage en encorbellement.
 function House({
   position,
   rotationY = 0,
@@ -336,7 +332,6 @@ function House({
   );
 }
 
-// ============================= SMOKE =============================
 function SmokePlume({ position, isNight }: { position: [number, number, number]; isNight: boolean }) {
   const groupRef = useRef<THREE.Group>(null);
   const particles = useMemo(
@@ -383,7 +378,6 @@ function SmokePlume({ position, isNight }: { position: [number, number, number];
   );
 }
 
-// ============================= WELL =============================
 function Well({ position, isNight }: { position: [number, number, number]; isNight: boolean }) {
   const stoneTex = useMemo(() => makeStoneTexture(isNight), [isNight]);
   const woodTex = useMemo(() => makeWoodTexture(isNight, 'dark'), [isNight]);
@@ -416,7 +410,6 @@ function Well({ position, isNight }: { position: [number, number, number]; isNig
   );
 }
 
-// ============================= MARKET STALL =============================
 function MarketStall({ position, rotationY = 0, isNight }: { position: [number, number, number]; rotationY?: number; isNight: boolean }) {
   const woodTex = useMemo(() => makeWoodTexture(isNight, 'dark'), [isNight]);
   return (
@@ -462,7 +455,6 @@ function MarketStall({ position, rotationY = 0, isNight }: { position: [number, 
   );
 }
 
-// ============================= STREET LAMP =============================
 function StreetLamp({ position, isNight }: { position: [number, number, number]; isNight: boolean }) {
   const flameRef = useRef<THREE.Mesh>(null);
   const lightRef = useRef<THREE.PointLight>(null);
@@ -508,7 +500,6 @@ function StreetLamp({ position, isNight }: { position: [number, number, number];
   );
 }
 
-// ============================= FENCE =============================
 function Fence({ position, rotationY = 0, length = 3, isNight }: { position: [number, number, number]; rotationY?: number; length?: number; isNight: boolean }) {
   const woodTex = useMemo(() => makeWoodTexture(isNight, 'dark'), [isNight]);
   const count = Math.floor(length * 2);
@@ -532,7 +523,6 @@ function Fence({ position, rotationY = 0, length = 3, isNight }: { position: [nu
   );
 }
 
-// ============================= CITY WALLS =============================
 function WallSegment({
   position,
   length,
@@ -653,7 +643,7 @@ function CityWalls({ isNight }: { isNight: boolean }) {
   );
 }
 
-// ============================= DECOR PROPS =============================
+
 function Cart({ position, rotationY = 0, isNight }: { position: [number, number, number]; rotationY?: number; isNight: boolean }) {
   const woodTex = useMemo(() => makeWoodTexture(isNight, 'dark'), [isNight]);
   return (
@@ -880,7 +870,7 @@ function FarmPlot({ position, rotationY = 0, isNight }: { position: [number, num
   );
 }
 
-// ============================= FIREFLIES (lucioles la nuit) =============================
+
 function Fireflies({ isNight, count = 25 }: { isNight: boolean; count?: number }) {
   const groupRef = useRef<THREE.Group>(null);
   const positions = useMemo(() => Array.from({ length: count }, () => ({
@@ -923,7 +913,7 @@ function Fireflies({ isNight, count = 25 }: { isNight: boolean; count?: number }
   );
 }
 
-// ============================= MAIN =============================
+
 export default function Village({ isNight }: Props) {
   const stoneTex = useMemo(() => makeStoneTexture(isNight), [isNight]);
   const stoneFloor = useMemo(() => makeStoneFloorTexture(isNight), [isNight]);
@@ -1112,7 +1102,7 @@ export default function Village({ isNight }: Props) {
   );
 }
 
-// ============================= CLOUD =============================
+
 function Cloud({ position, scale, isNight }: { position: [number, number, number]; scale: number; isNight: boolean }) {
   const ref = useRef<THREE.Group>(null);
   useFrame((state) => {

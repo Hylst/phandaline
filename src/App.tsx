@@ -1,4 +1,4 @@
-import { useState, Suspense, useMemo, useEffect } from 'react';
+import { useState, Suspense, useMemo, useEffect, useCallback } from 'react';
 import { Canvas } from '@react-three/fiber';
 import { OrbitControls, Sky, Stars } from '@react-three/drei';
 import * as THREE from 'three';
@@ -19,6 +19,7 @@ export default function App() {
   const [isNight, setIsNight] = useState(false);
   const [musicOn, setMusicOn] = useState(true);
   const [mode, setMode] = useState<CameraMode>('orbit');
+  const [loading, setLoading] = useState(false);
   const gold = useGame((s) => s.gold);
   const reputation = useGame((s) => s.reputation);
   const defeated = useGame((s) => s.defeated);
@@ -30,20 +31,20 @@ export default function App() {
     useGame.getState().setCameraMode(mode);
   }, [mode]);
 
-  // Charge la musique MP3 au premier clic
+  // Charge la musique au montage, démarre au premier clic
   useEffect(() => {
-    const initAudio = async () => {
+    audio.loadMusic('./balade.mp3');
+    const startAudio = () => {
       audio.resume();
-      await audio.loadMusic('./balade.mp3');
       audio.startMusic();
-      window.removeEventListener('click', initAudio);
-      window.removeEventListener('keydown', initAudio);
+      window.removeEventListener('click', startAudio);
+      window.removeEventListener('keydown', startAudio);
     };
-    window.addEventListener('click', initAudio);
-    window.addEventListener('keydown', initAudio);
+    window.addEventListener('click', startAudio);
+    window.addEventListener('keydown', startAudio);
     return () => {
-      window.removeEventListener('click', initAudio);
-      window.removeEventListener('keydown', initAudio);
+      window.removeEventListener('click', startAudio);
+      window.removeEventListener('keydown', startAudio);
     };
   }, []);
 
@@ -92,11 +93,23 @@ export default function App() {
   }, [isNight]);
 
   if (!onboardingDone) {
-    return <Onboarding onComplete={() => {
-      setOnboardingDone(true);
-      audio.resume();
-      audio.startMusic();
-    }} />;
+    return (
+      <Onboarding onComplete={() => {
+        setOnboardingDone(true);
+        setLoading(true);
+        setTimeout(() => setLoading(false), 500);
+      }} />
+    );
+  }
+
+  if (loading) {
+    return (
+      <div className="fixed inset-0 z-50 flex items-center justify-center bg-black">
+        <div className="text-center">
+          <p className="text-2xl font-serif text-amber-300 animate-pulse">Chargement du monde...</p>
+        </div>
+      </div>
+    );
   }
 
   return (
