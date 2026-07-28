@@ -1,9 +1,9 @@
 import { useState, useEffect, useCallback } from 'react';
 import { audio } from './audio';
-import scene1 from './images/scene1_dragon.webp';
-import scene2 from './images/scene2_combat.webp';
-import scene3 from './images/scene3_village.webp';
-import scene4 from './images/scene4_compagnons.webp';
+const scene1 = '/images/scene1_dragon.webp';
+const scene2 = '/images/scene2_combat.webp';
+const scene3 = '/images/scene3_village.webp';
+const scene4 = '/images/scene4_compagnons.webp';
 
 const SCENES = [
   {
