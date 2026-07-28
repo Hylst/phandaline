@@ -1,9 +1,10 @@
 import { useState, useEffect, useCallback } from 'react';
 import { audio } from './audio';
-const scene1 = '/images/scene1_dragon.webp';
-const scene2 = '/images/scene2_combat.webp';
-const scene3 = '/images/scene3_village.webp';
-const scene4 = '/images/scene4_compagnons.webp';
+const B = import.meta.env.BASE_URL;
+const scene1 = `${B}images/scene1_dragon.webp`;
+const scene2 = `${B}images/scene2_combat.webp`;
+const scene3 = `${B}images/scene3_village.webp`;
+const scene4 = `${B}images/scene4_compagnons.webp`;
 
 const SCENES = [
   {
