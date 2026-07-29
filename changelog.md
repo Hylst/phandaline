@@ -1,5 +1,15 @@
 # Changelog — Phandaline
 
+## 1.1.0 (2026-07-28)
+### Ajouté
+- Nouvelles illustrations (4 écrans onboarding)
+- Espace / clic avance le slide d'onboarding
+- Fix délai 3D au chargement
+- Crédit musique Pipin
+- Images non-inlinées (performance)
+- Boutique et forgeron interactifs
+- Lore supplémentaire
+
 ## 1.0.0 (2026-07-24)
 - Version initiale
 - Village 3D complet de Phandaline

@@ -15,14 +15,15 @@
 - [x] Créer about.md, README.md, structure.md, features.md, todo.md, changelog.md
 
 ## Améliorations futures
+- [x] Nouvelles illustrations onboarding
+- [x] Click/espace avance slide
+- [x] Boutique et forgeron interactifs
 - [ ] Système d'inventaire (objets, équipement)
 - [ ] Combats plus élaborés (compétences, sorts)
 - [ ] Nouveaux donjons à explorer
 - [ ] Dialogues avec embranchements et choix
 - [ ] Sauvegarde localStorage
 - [ ] Nouveaux PNJ et quêtes
-- [ ] Marchand fonctionnel
-- [ ] Forge interactive
 - [ ] Montures / chevaux
 - [ ] Optimisations mobiles
 - [ ] Internationalisation (EN/FR)
