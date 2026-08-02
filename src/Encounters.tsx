@@ -174,7 +174,7 @@ export function RedbrandMarauder({ startPos, radius = 5, speed = 0.5 }: {
       {inRange && (
         <Html position={[0, h, 0]} center distanceFactor={10} zIndexRange={[15, 0]}>
           <div className="pointer-events-none whitespace-nowrap rounded-md border border-red-700/70 bg-red-950/90 px-2 py-1 font-serif text-[10px] font-bold text-red-300 shadow-lg">
-            🛡️ Fers Rouges — Maraudeur
+            🛡️ Fers Rouges : Maraudeur
             <br /><span className="text-[8px] text-red-200/70">[E] Affronter !</span>
           </div>
         </Html>

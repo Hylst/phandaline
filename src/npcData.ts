@@ -11,9 +11,9 @@ export interface NpcDef {
   appearance: Partial<CharacterProps>;
 }
 
-// ===== LES PHLANDYS — Héros de Phandaline =====
-// Buddy, nain moine — Azureas, mage bleu — Kallista, rôdeuse tieffeline rouge
-// Azazel, barde tieffelin bleu — Sindaros, prêtre-mage elfe — Elian, paladin
+// ===== LES PHLANDYS : Héros de Phandaline =====
+// Buddy, nain moine ; Azureas, mage bleu ; Kallista, rôdeuse tieffeline rouge
+// Azazel, barde tieffelin bleu ; Sindaros, prêtre-mage elfe ; Elian, paladin
 // Kenrick, gobelin moine sous cape
 
 export const NPC_DEFS: NpcDef[] = [
@@ -179,7 +179,7 @@ export function npcScript(id: string, quests: Record<QuestId, QuestStatus>): Scr
           lines: [
             'Bienvenue au Bon-Vivant, voyageur ! Je suis Oscar Bon-Vivant, aubergiste de père en fils.',
             'C\'est ici que tout commence à Phandaline. Les bardes y chantent les exploits de Dame Tanamere, les marchands y négocient leurs minerais...',
-            'Et justement, j\'ai un souci. Ma livraison de pommes — les pommes d\'or d\'Eliass ! — est tombée d\'une charrette près de la porte sud.',
+            'Et justement, j\'ai un souci. Ma livraison de pommes (les pommes d\'or d\'Eliass !) est tombée d\'une charrette près de la porte sud.',
             'Sans elles, pas de tarte Tatinamère, ma spécialité. Rapporte-les-moi et 10 pièces sont à toi. Et une tarte gratuite, ça va de soi !',
           ],
           onEnd: () => g.setQuest('apples', 'active'),
@@ -273,7 +273,7 @@ export function npcScript(id: string, quests: Record<QuestId, QuestStatus>): Scr
       return {
         lines: [
           'Je suis Sildar Hallwinter, conseiller du Prince Aldrith Tresendar. Je conseille, j\'étudie, je veille.',
-          'La mine du Ressac, dans la Caverne éponyme, est le cœur battant de notre richesse. L\'eau qui y coule vient du Plan Élémentaire de l\'Eau lui-même — le mage Mormesk l\'a confirmé.',
+          'La mine du Ressac, dans la Caverne éponyme, est le cœur battant de notre richesse. L\'eau qui y coule vient du Plan Élémentaire de l\'Eau lui-même, le mage Mormesk l\'a confirmé.',
           'Cette magie fait la puissance de Phandaline... et sa vulnérabilité. Reste vigilant, aventurier.',
         ],
       };
@@ -305,7 +305,7 @@ export function npcScript(id: string, quests: Record<QuestId, QuestStatus>): Scr
         lines: [
           'Ne t\'approche pas trop, humain. Kallista, rôdeuse. Mon arc voit plus loin que tes yeux.',
           'Je piste les traces de gobelins sur la route du Fort de l\'Aigle depuis trois lunes. Les Serres du Faucon Noir patrouillent, mais ce n\'est pas suffisant.',
-          'Azazel est mon frère — il a la peau bleue, tu ne peux pas le louper. Depuis le manoir, je garde un œil sur les bois et sur ses mensonges.',
+          'Azazel est mon frère, il a la peau bleue, tu ne peux pas le louper. Depuis le manoir, je garde un œil sur les bois et sur ses mensonges.',
         ],
       };
 

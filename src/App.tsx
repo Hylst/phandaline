@@ -19,6 +19,7 @@ export default function App() {
   const [isNight, setIsNight] = useState(false);
   const [musicOn, setMusicOn] = useState(true);
   const [mode, setMode] = useState<CameraMode>('orbit');
+  const [showInfo, setShowInfo] = useState(false);
 
   const gold = useGame((s) => s.gold);
   const reputation = useGame((s) => s.reputation);
@@ -101,7 +102,7 @@ export default function App() {
     <div className="relative h-screen w-screen overflow-hidden bg-black font-serif">
       {/* Crédit en bas */}
       <div className="pointer-events-none absolute bottom-1 left-0 right-0 z-50 text-center text-[9px]" style={{ color: '#332211', fontFamily: 'serif' }}>
-        <span style={{ color: '#554433' }}>Geoffroy Streit</span> — <span style={{ color: '#443322' }}>Rôliste Fantasque</span>
+        <span style={{ color: '#554433' }}>Geoffroy Streit</span>, <span style={{ color: '#443322' }}>Rôliste Fantasque</span>
       </div>
       <Canvas
         shadows
@@ -281,14 +282,14 @@ export default function App() {
       <div className="pointer-events-none absolute left-0 right-0 top-0 flex items-start justify-between p-4">
         <div className="pointer-events-auto rounded-md border-2 border-amber-700/70 bg-gradient-to-b from-[#2a2018]/95 to-[#1a130c]/95 px-5 py-3 text-amber-100 shadow-2xl">
           <h1 className="text-xl font-bold tracking-wide text-amber-300 drop-shadow">
-            🏰 Phandaline — Les Tréfonds de Phancreux
+            🏰 Phandaline : Les Tréfonds de Phancreux
           </h1>
           <p className="text-xs italic text-amber-200/70">
             Côte des Épées · Campagne D&D 5e maison · Quid Facis
           </p>
         </div>
 
-        <div className="pointer-events-auto flex items-center gap-3 rounded-md border-2 border-amber-700/70 bg-gradient-to-b from-[#2a2018]/95 to-[#1a130c]/95 px-4 py-2 shadow-2xl">
+        <div className="pointer-events-auto flex flex-wrap items-center gap-3 rounded-md border-2 border-amber-700/70 bg-gradient-to-b from-[#2a2018]/95 to-[#1a130c]/95 px-4 py-2 shadow-2xl">
           {/* Bourse d'or */}
           <span className="mr-1 border-r border-amber-700/50 pr-3 text-sm font-bold text-yellow-400">
             🪙 {gold} PO
@@ -339,8 +340,34 @@ export default function App() {
           <span className="w-12 text-xs font-semibold uppercase tracking-wider text-amber-200">
             {isNight ? 'Nuit' : 'Jour'}
           </span>
+          <button
+            onClick={() => setShowInfo(true)}
+            className="rounded-md border border-amber-700/60 bg-black/40 px-2 py-1 text-sm transition hover:bg-amber-900/30"
+            title="Comment ce jeu a été fait"
+          >
+            ℹ️
+          </button>
         </div>
       </div>
+
+      {showInfo && (
+        <div className="pointer-events-auto fixed inset-0 z-[100] flex items-center justify-center bg-black/75 backdrop-blur-sm p-4" onClick={() => setShowInfo(false)}>
+          <div className="w-full max-w-lg max-h-[85vh] overflow-y-auto rounded-md border-2 border-amber-700/70 bg-gradient-to-b from-[#2a2018]/98 to-[#1a130c]/98 shadow-2xl" onClick={(e) => e.stopPropagation()}>
+            <div className="p-6 space-y-3.5 text-sm leading-relaxed text-amber-100/90">
+              <h3 className="text-xl font-bold text-amber-300 drop-shadow">Comment ce jeu a été fait</h3>
+              <p><strong className="text-amber-200">Stack :</strong> React 19, TypeScript 5.9, Tailwind CSS 4, Vite 7, compilé en un seul fichier HTML. Rendu 3D avec Three.js via React Three Fiber et Drei (caméra, ciel, étoiles), état de jeu géré par un store Zustand.</p>
+              <p><strong className="text-amber-200">Graphismes :</strong> vraie scène 3D en WebGL (village, manoir, personnages, herbe), pas du Canvas 2D. Éclairage jour/nuit dynamique (soleil, lumière ambiante, hémisphère).</p>
+              <p><strong className="text-amber-200">Musique &amp; sons :</strong> musique d'ambiance en fichier audio, effets sonores (quête, ramassage) synthétisés en direct avec l'API Web Audio.</p>
+              <p><strong className="text-amber-200">Interactions :</strong> déplacement au clavier, 3 modes de caméra (libre, 3e personne, 1re personne avec verrouillage du pointeur), interaction avec les PNJ et objets de quête.</p>
+              <p><strong className="text-amber-200">Architecture :</strong> composants React Three Fiber déclaratifs pour chaque élément de la scène (village, manoir, personnages, rencontres), état partagé (or, réputation, quêtes, dialogue) centralisé dans un store Zustand accessible depuis n'importe quel composant.</p>
+              <p><strong className="text-amber-200">Algorithmes notables :</strong> bascule jour/nuit qui réajuste en direct l'intensité et la couleur de plusieurs sources de lumière, contrôleur de personnage avec verrouillage du pointeur pour la vue à la première personne.</p>
+            </div>
+            <div className="border-t border-amber-800/50 p-4 text-center">
+              <button onClick={() => setShowInfo(false)} className="px-6 py-2.5 rounded-md font-bold text-[#1a130c] bg-gradient-to-r from-amber-400 to-yellow-300 hover:brightness-110 active:scale-95 transition-all">Fermer</button>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* SÉLECTEUR CAMÉRA */}
       <div className="pointer-events-auto absolute left-4 top-1/2 -translate-y-1/2 flex flex-col gap-2">
@@ -398,7 +425,7 @@ export default function App() {
           ) : (
             <div className="text-xs">
               <span className="font-bold text-amber-300">
-                {mode === 'first' ? '1ère personne' : '3ème personne'} —{' '}
+                {mode === 'first' ? '1ère personne' : '3ème personne'} :{' '}
               </span>
               <span className="text-amber-200/80">
                 Clique pour capturer la souris · <b>WASD</b> se déplacer · <b>E</b> parler / ramasser / attaquer · <b>Échap</b> libérer

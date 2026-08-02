@@ -56,7 +56,7 @@ function Head({
   const isDwarf = species === 'dwarf';
   return (
     <group ref={headRef} position={[0, 0.72, 0]}>
-      {/* crâne — visage texturé sur la face avant uniquement */}
+      {/* crâne : visage texturé sur la face avant uniquement */}
       <mesh castShadow>
         <boxGeometry args={[0.3, 0.34, 0.3]} />
         <meshStandardMaterial attach="material-0" color={skinColor} roughness={0.75} />

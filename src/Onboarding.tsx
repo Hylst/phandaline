@@ -16,7 +16,7 @@ const SCENES = [
   },
   {
     title: 'Le Dragon Vert Azdraka',
-    text: `Il y a vingt ans, le Grand Dragon Vert Azdraka s\'installa dans le Bois de Padhiver et imposa sa tyrannie sur toute la région.\n\nUne compagnie d\'aventuriers menée par Dame Tanamere Alagondar se dressa contre lui. On dit que leur combat dura cinq jours et cinq nuits — des montagnes aux forêts, jusqu\'à la Grande Route.\n\nTanamere tomba en portant le coup fatal. Seul Aldrith Tresendar, le rôdeur surnommé « le Faucon Noir », revint annoncer la nouvelle. Reconnaissant, Phandaline le fit Prince.\n\nAprès avoir fait ériger le Tertre du Dragon en mémoire de Tanamere, Aldrith fit bâtir son manoir sur une colline et gouverna avec bienveillance. Phandaline devint le « Joyau du Nord ».`,
+    text: `Il y a vingt ans, le Grand Dragon Vert Azdraka s\'installa dans le Bois de Padhiver et imposa sa tyrannie sur toute la région.\n\nUne compagnie d\'aventuriers menée par Dame Tanamere Alagondar se dressa contre lui. On dit que leur combat dura cinq jours et cinq nuits, des montagnes aux forêts, jusqu\'à la Grande Route.\n\nTanamere tomba en portant le coup fatal. Seul Aldrith Tresendar, le rôdeur surnommé « le Faucon Noir », revint annoncer la nouvelle. Reconnaissant, Phandaline le fit Prince.\n\nAprès avoir fait ériger le Tertre du Dragon en mémoire de Tanamere, Aldrith fit bâtir son manoir sur une colline et gouverna avec bienveillance. Phandaline devint le « Joyau du Nord ».`,
     image: scene2,
     color: '#1a0a0a',
     accentColor: '#c04030',
@@ -29,7 +29,7 @@ const SCENES = [
     accentColor: '#d0a040',
   },
   {
-    title: 'Les Phlandys — Tes Compagnons',
+    title: 'Les Phlandys : Tes Compagnons',
     text: `Tu n\'es pas seul. Les Phlandys, groupe de héros de Phandaline, t\'accompagnent dans tes aventures depuis leur nouvelle demeure : le manoir des Tresendar, un peu à l\'écart sur la colline nord.\n\n\ud83e\udea8 Buddy, nain moine du Feu\n\ud83d\udd35 Azureas, mage bleu de la Tour de Padhiver\n\ud83c\udff4\u200d\u2620\ufe0f Kallista, rôdeuse tieffeline à la peau rouge\n\ud83c\udfb5 Azazel, son frère, barde à la peau bleue\n\ud83c\udf3f Sindaros, elfe prêtre-mage mystérieux\n\u2728 Elian, paladin un peu... excentrique\n\ud83c\udf72 Kenrick, gobelin moine sous cape, fin cuisinier\n\nRamasse les objets brillants \u2728 pour accomplir tes quêtes. Que ta légende s\'écrive à Phandaline !`,
     image: scene4,
     color: '#0a1a2a',
@@ -123,7 +123,7 @@ export default function Onboarding({ onComplete }: { onComplete: () => void }) {
             Cliquez pour entrer dans l'aventure…
           </p>
           <div className="mt-12 text-xs" style={{ color: '#443322', fontFamily: 'serif' }}>
-            <span style={{ color: '#806633' }}>Geoffroy Streit</span> — <span style={{ color: '#806633' }}>Rôliste Fantasque</span> — Quid Facis
+            <span style={{ color: '#806633' }}>Geoffroy Streit</span>, <span style={{ color: '#806633' }}>Rôliste Fantasque</span>, Quid Facis
           </div>
           <div className="mt-4 text-[10px]" style={{ color: '#665533', fontFamily: 'serif' }}>
             Échap : passer l'introduction
@@ -150,10 +150,10 @@ export default function Onboarding({ onComplete }: { onComplete: () => void }) {
           </h1>
           <div className="w-32 h-0.5 mx-auto mb-4" style={{ background: 'linear-gradient(90deg, transparent, #c9a227, transparent)' }} />
           <p className="text-lg italic mb-2" style={{ color: '#a08050', fontFamily: 'serif' }}>
-            Campagne D&D 5e — Champion.ne · La Demeure du Mal
+            Campagne D&D 5e : Champion.ne · La Demeure du Mal
           </p>
            <p className="text-xs mt-2 mb-6" style={{ color: '#665533', fontFamily: 'serif' }}>
-            Par <span style={{ color: '#c9a227' }}>Geoffroy Streit</span> — <span style={{ color: '#806030' }}>Rôliste Fantasque</span> — Quid Facis
+            Par <span style={{ color: '#c9a227' }}>Geoffroy Streit</span>, <span style={{ color: '#806030' }}>Rôliste Fantasque</span>, Quid Facis
           </p>
           <p className="text-[10px]" style={{ color: '#443322', fontFamily: 'serif' }}>
             Musique : <span style={{ color: '#665533' }}>La Balade de Pipin</span> par Hylst (Geoffroy)
@@ -296,7 +296,7 @@ export default function Onboarding({ onComplete }: { onComplete: () => void }) {
 
       {/* Crédit */}
       <div className="absolute bottom-6 text-[10px]" style={{ color: '#332211', fontFamily: 'serif' }}>
-        <span style={{ color: '#554433' }}>Geoffroy Streit</span> — <span style={{ color: '#443322' }}>Rôliste Fantasque</span>
+        <span style={{ color: '#554433' }}>Geoffroy Streit</span>, <span style={{ color: '#443322' }}>Rôliste Fantasque</span>
       </div>
       <button
         onClick={(e) => {
