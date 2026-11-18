@@ -23,4 +23,4 @@ Avec 12 PNJ interactifs dotés de dialogues profonds, 3 quêtes principales, un 
 
 ## Contact
 
-- Email : geoffroy.streit@gmail.com
+- Email : geoffroy.streit@ik.me
