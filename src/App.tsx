@@ -13,6 +13,8 @@ import { NPC_DEFS } from './npcData';
 import { useGame, CameraMode } from './store';
 import { audio } from './audio';
 import Onboarding from './Onboarding';
+import WebGLFallback from './WebGLFallback';
+import { detectWebGL } from './webgl';
 
 export default function App() {
   const [onboardingDone, setOnboardingDone] = useState(false);
@@ -26,6 +28,26 @@ export default function App() {
   const defeated = useGame((s) => s.defeated);
   const quests = useGame((s) => s.quests);
   const dialogue = useGame((s) => s.dialogue);
+
+  // Le village a besoin de WebGL : sans controle prealable, un navigateur qui
+  // refuse tout contexte affiche un canvas noir, sans message ni erreur.
+  const [webgl, setWebgl] = useState(() => detectWebGL());
+  const [contextLost, setContextLost] = useState(false);
+
+  const handleCanvasCreated = useCallback((state: { gl: THREE.WebGLRenderer }) => {
+    const canvas = state.gl.domElement;
+    // Sans preventDefault, le navigateur ne tentera jamais de restaurer le contexte.
+    canvas.addEventListener('webglcontextlost', (event) => {
+      event.preventDefault();
+      setContextLost(true);
+    });
+    canvas.addEventListener('webglcontextrestored', () => setContextLost(false));
+  }, []);
+
+  const retryWebGL = useCallback(() => {
+    setContextLost(false);
+    setWebgl(detectWebGL());
+  }, []);
 
   // synchronise le mode caméra avec le store de jeu
   useEffect(() => {
@@ -92,6 +114,16 @@ export default function App() {
     };
   }, [isNight]);
 
+  if (!webgl.ok || contextLost) {
+    return (
+      <WebGLFallback
+        diagnostic={webgl}
+        contextLost={contextLost}
+        onRetry={retryWebGL}
+      />
+    );
+  }
+
   if (!onboardingDone) {
     return (
       <Onboarding onComplete={() => setOnboardingDone(true)} />
@@ -108,6 +140,7 @@ export default function App() {
         shadows
         camera={{ position: mode === 'orbit' ? [32, 28, 44] : [0, 1.6, 5], fov: 65 }}
         gl={{ antialias: true }}
+        onCreated={handleCanvasCreated}
       >
         <Suspense fallback={null}>
           {/* Ciel */}

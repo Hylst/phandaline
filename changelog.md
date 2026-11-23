@@ -1,5 +1,21 @@
 # Changelog — Phandaline
 
+## 1.3.0 (2026-11-23)
+
+### Ajouté
+- Contrôle WebGL avant le montage du Canvas : les API WebGL 2 puis WebGL 1 sont testées sur
+  un canvas de 1 pixel, libéré aussitôt. Sans ce contrôle, un navigateur qui refuse tout
+  contexte affichait un écran noir, sans message ni erreur, et la partie semblait cassée.
+- Panneau de repli en français quand le rendu est impossible : cause probable, cinq actions
+  concrètes (redémarrage complet du navigateur, `chrome://gpu`, accélération graphique,
+  onglets lourds, pilote), diagnostic copiable, boutons « Réessayer » et « Recharger la page ».
+- Gestion de `webglcontextlost` et `webglcontextrestored` : une perte de contexte en cours de
+  partie affiche le panneau au lieu d'un écran figé, et le retour du contexte réaffiche le jeu.
+
+### Vérifié
+- Sans WebGL : panneau affiché à la place du jeu. Avec WebGL : village rendu normalement,
+  canvas 1280 x 900, aucune erreur console.
+
 ## 1.2.0 (2026-08-03)
 
 ### Ajoute
