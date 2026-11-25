@@ -12,3 +12,8 @@ CLAUDE.md
 .opencode/
 .claude/
 .cursor/
+
+# Ne pas masquer les modeles partageables
+!.env.example
+!.env.sample
+!.env.template
