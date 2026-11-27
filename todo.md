@@ -27,3 +27,8 @@
 - [ ] Montures / chevaux
 - [ ] Optimisations mobiles
 - [ ] Internationalisation (EN/FR)
+
+## Audit du 27/11/2026
+
+- [ ] Ne pas promettre de sauvegarde tant que la ligne localStorage reste ouverte.
+- [ ] Vérifier que la mention d'assistance IA reste visible sur l'accueil et dans l'onboarding.

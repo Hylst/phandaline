@@ -1,6 +1,6 @@
 # Phandaline
 
-**RPG 3D médiéval-fantastique en monde ouvert.**
+**RPG 3D médiéval-fantastique dans un village explorable.**
 
 Joue sur : [games.hylst.fr/phandaline/](https://games.hylst.fr/phandaline/)
 

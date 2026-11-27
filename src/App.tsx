@@ -134,7 +134,7 @@ export default function App() {
     <div className="relative h-screen w-screen overflow-hidden bg-black font-serif">
       {/* Crédit en bas */}
       <div className="pointer-events-none absolute bottom-1 left-0 right-0 z-50 text-center text-[9px]" style={{ color: '#332211', fontFamily: 'serif' }}>
-        <span style={{ color: '#554433' }}>Geoffroy Streit</span>, <span style={{ color: '#443322' }}>Rôliste Fantasque</span>
+        <span style={{ color: '#554433' }}>Geoffroy Streit</span>, <span style={{ color: '#443322' }}>Rôliste Fantasque</span>, avec l'aide d'une IA
       </div>
       <Canvas
         shadows
